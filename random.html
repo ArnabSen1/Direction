@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Location and Redirect to Google Maps</title>
+</head>
+<body>
+    <button id="getLocationButton">Get Directions</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var getLocationButton = document.getElementById("getLocationButton");
+
+            getLocationButton.addEventListener("click", function () {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;
+                        redirectToGoogleMaps(latitude, longitude);
+                    }, function (error) {
+                        // Handle geolocation error
+                        console.error("Geolocation error:", error);
+                        // You can provide a fallback or show an error message to the user
+                    });
+                } else {
+                    // Geolocation is not available
+                    // Handle the error or prompt the user for their location
+                    console.error("Geolocation is not available.");
+                    // You can provide a fallback or show an error message to the user
+                }
+            });
+
+            function redirectToGoogleMaps(latitude, longitude) {
+                var destination = latitude + "," + longitude;
+                var googleMapsURL = "https://www.google.com/maps/dir/?api=1&destination=" + destination;
+                window.location.href = googleMapsURL;
+            }
+        });
+    </script>
+</body>
+</html>
